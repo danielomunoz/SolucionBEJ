@@ -32,6 +32,7 @@ exports.create = async (req, res, next) => {
     const validation_errors = validationResult(req);
 
     if (!validation_errors.isEmpty()) {
+      manageBadRequests(req);
       throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
     }
 
@@ -74,13 +75,6 @@ exports.update = async (req, res, next) => {
 
   try{
 
-    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
-    const validation_errors = validationResult(req);
-
-    if (!validation_errors.isEmpty()) {
-      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
-    }
-
     // Looking for our company and updating it.
     const id = req.params.id;
 
@@ -109,6 +103,7 @@ exports.findAll = async (req, res, next) => {
     const validation_errors = validationResult(req);
 
     if (!validation_errors.isEmpty()) {
+      manageBadRequests(req);
       throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
     }
 
@@ -143,6 +138,7 @@ exports.search = async (req, res, next) => {
     const validation_errors = validationResult(req);
 
     if (!validation_errors.isEmpty()) {
+      manageBadRequests(req);
       throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
     }
 

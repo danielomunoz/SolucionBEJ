@@ -27,7 +27,8 @@ exports.validate = (method) => {
        ]   
     }
     case 'update': {
-      return [ 
+      return [
+        param('id', 'You must introduce a valid company id').exists().not().isEmpty().isInt(),
         body('id', 'You cannot upload the id of a company').not().exists(),
         body('name', 'Invalid name').optional().not().isEmpty().trim(),
         body('description', 'Invalid description').optional().not().isEmpty().trim(),

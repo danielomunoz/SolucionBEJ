@@ -21,6 +21,7 @@ exports.findAll = async (req, res, next) => {
 	const validation_errors = validationResult(req);
 
     if (!validation_errors.isEmpty()) {
+      manageBadRequests(req);
       throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
     }
 
@@ -69,6 +70,7 @@ exports.findOwnerAndPosts = async (req, res, next) => {
         const validation_errors = validationResult(req);
 
         if (!validation_errors.isEmpty()) {
+          manageBadRequests(req);
           throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
         }
 

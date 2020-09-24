@@ -1,0 +1,11 @@
+{
+	"/api/companies": {
+		"available_methods": ["GET", "POST", "PUT"]
+	},
+	"/api/favorites": {
+		"available_methods": ["POST"]
+	},
+	"/api/owners": {
+		"available_methods": ["GET"]
+	}
+}

@@ -9,13 +9,24 @@
 const db = require("../../models");
 const Company = db.company;
 
+// Require external and core packages
+const { validationResult } = require('express-validator');
+
 // Require constants and utils packages.
 const cnsts = require("../../config/constants");
-const { createError, isUndefined, isEmptyArray } = require("../../utils/utils");
+const { createError, isUndefined, isEmptyArray, manageBadRequests } = require("../../utils/utils");
 
 exports.verifyCompanyToken = async (req, res, next) => {
 
   try{
+
+    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
+    const validation_errors = validationResult(req);
+
+    if (!validation_errors.isEmpty()) {
+      manageBadRequests(req);
+      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
+    }
 
     const id = req.params.id;
 

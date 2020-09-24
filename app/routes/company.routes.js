@@ -10,7 +10,7 @@ let router = require("express").Router();
 
 	// Define Company routes.
 	router.post("/", validate('create'), companies.create);
-	router.put("/:id", verifyCompanyToken, validate('update'), companies.update);
+	router.put("/:id", validate('update'), verifyCompanyToken, companies.update);
 	router.get("/", validate('findAll'), companies.findAll);
 	router.get("/:pattern", validate('search'), companies.search);
 
