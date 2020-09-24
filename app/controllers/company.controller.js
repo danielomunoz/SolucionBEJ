@@ -112,8 +112,13 @@ exports.findAll = async (req, res, next) => {
       throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
     }
 
+    // Create pagination values.
+    let page = Number(req.query.page) || cnsts.controllers.company.MIN_PAGE;
+    let offset = (page - cnsts.controllers.company.MIN_PAGE) * cnsts.controllers.company.OFFSET_PAGINATION_FACTOR;
+    let limit = cnsts.controllers.company.DEFAULT_LIMIT;
+
     // Listing companies.
-    let data = await Company.findAll({ attributes: [ 'id', 'name', 'shortdesc', 'description', 'email', 'date', 'status', 'logo'] });
+    let data = await Company.findAll({ offset, limit, attributes: [ 'id', 'name', 'shortdesc', 'description', 'email', 'date', 'status', 'logo'] });
 
     if(isEmptyArray(data)){
       throw createError(404, 'There are not results on our database for the page that you introduced');
