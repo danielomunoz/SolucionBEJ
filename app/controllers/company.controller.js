@@ -54,3 +54,44 @@ exports.create = async (req, res, next) => {
   }catch(err){ next(err); }
 
 };
+
+/**
+* @api {put} /api/companies/:id
+*
+* @apiParam {Number} id Company unique ID.
+*
+* @apiParam {String} [name]
+* @apiParam {String} [cif]
+* @apiParam {String} [email]
+* @apiParam {String} [description]
+* @apiParam {String} [logo]
+* @apiParam {String} [shortdesc]
+* @apiParam {String} [ccc]
+* @apiParam {String} [date]
+* @apiParam {Boolean} [status]
+*/
+exports.update = async (req, res, next) => {
+
+  try{
+
+    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
+    const validation_errors = validationResult(req);
+
+    if (!validation_errors.isEmpty()) {
+      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
+    }
+
+    // Looking for our company and updating it.
+    const id = req.params.id;
+
+    let data = await Company.update(req.body, { where: { id: id } });
+
+    if(isEmptyArray(data)){
+      throw createError(404, 'There are not results on our database for the company id that you introduced');
+    }
+      
+    res.status(200).json(createResponse(200, 'Company was successfully updated', null));
+
+  }catch(err){ next(err); }
+
+};

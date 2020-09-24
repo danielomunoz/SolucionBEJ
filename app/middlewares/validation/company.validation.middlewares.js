@@ -26,5 +26,19 @@ exports.validate = (method) => {
         body('status', 'Status is not a boolean').optional().isBoolean()
        ]   
     }
+    case 'update': {
+      return [ 
+        body('id', 'You cannot upload the id of a company').not().exists(),
+        body('name', 'Invalid name').optional().not().isEmpty().trim(),
+        body('description', 'Invalid description').optional().not().isEmpty().trim(),
+        body('email', 'You cannot upload the email of a company').not().exists(),
+        body('cif', 'You cannot upload the cif of a company').not().exists(),
+        body('logo', 'Invalid logo').optional().not().isEmpty().trim(),
+        body('shortdesc', 'Invalid shortdesc').optional().not().isEmpty().trim(),
+        body('ccc', 'Invalid ccc').optional().not().isEmpty().trim(),
+        body('date', 'You cannot upload the date of a company').not().exists(),
+        body('status', 'Status is not a boolean').optional().isBoolean()
+       ]
+    }
   }
 }

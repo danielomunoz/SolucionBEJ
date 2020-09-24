@@ -9,6 +9,7 @@ let router = require("express").Router();
 
 	// Define Company routes.
 	router.post("/", validate('create'), companies.create);
+	router.put("/:id", validate('update'), companies.update);
 
 // Export router with all of our routes.
 module.exports = router;
