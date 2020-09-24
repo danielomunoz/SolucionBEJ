@@ -1,9 +1,10 @@
 //Importing external and core packages.
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require('express');
+const bodyParser = require('body-parser');
 
 // Importing routes.
 const company_routes = require('./app/routes/company.routes');
+const owner_routes = require('./app/routes/owner.routes');
 
 // Importing errors and security middlewares.
 const { errorHandler } = require('./app/middlewares/errors/server.errors.middlewares');
@@ -26,6 +27,7 @@ db.sequelize.sync().then(() => {
 
 // Adding the routes previously imported.
 app.use('/api/companies', company_routes);
+app.use('/api/owners', owner_routes);
 
 // Managing application errors throwed in the course of server operations.
 app.use(errorHandler);
