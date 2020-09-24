@@ -48,3 +48,46 @@ exports.verifyCompanyToken = async (req, res, next) => {
   }catch(err){ next(err); }
 
 }
+
+exports.verifyListingLimitToken = async (req, res, next) => {
+
+  try{
+
+    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
+    const validation_errors = validationResult(req);
+
+    if (!validation_errors.isEmpty()) {
+      manageBadRequests(req);
+      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
+    }
+
+    let page = Number(req.query.page) || cnsts.controllers.company.MIN_PAGE;
+    
+    // If page is < or = to 10, so the middleware allows you to continue. Otherwise, it asks for any 
+    // company token present on database.
+    if(page < cnsts.middlewares.security.company.FIRST_PAGE_NOT_ALLOWED_WITHOUT_TOKEN) {
+      
+      next();
+    
+    } else {
+
+      // Extract the token in case that it has been sent. Otherwise, we reject the requests.
+      if(isUndefined(req.header('Authorization'))){
+        throw createError(403, 'To list more than ten pages, you need to introduce a valid token');
+      }
+
+      let auth_token = req.header('Authorization').split(" ")[1];
+
+      // Search for a company with the token introduced. Any token company is valid here to allow you
+      // to continue.
+      let query_company_response = await Company.findAll({ where: { token: auth_token } });
+
+      if(isEmptyArray(query_company_response)) throw createError(403, 'To list more than ten pages, you need to introduce a valid token');
+
+      next();
+      
+    }
+
+  }catch(err){ next(err); }
+  
+}

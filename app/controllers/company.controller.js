@@ -99,14 +99,6 @@ exports.findAll = async (req, res, next) => {
 
   try{
 
-    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
-    const validation_errors = validationResult(req);
-
-    if (!validation_errors.isEmpty()) {
-      manageBadRequests(req);
-      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
-    }
-
     // Create pagination values.
     let page = Number(req.query.page) || cnsts.controllers.company.MIN_PAGE;
     let offset = (page - cnsts.controllers.company.MIN_PAGE) * cnsts.controllers.company.OFFSET_PAGINATION_FACTOR;
