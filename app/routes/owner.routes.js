@@ -9,6 +9,7 @@ var router = require("express").Router();
 
 	// Define Owners routes.
 	router.get("/", validate('findAll'), owners.findAll);
+	router.get("/:id", validate('findOwnerAndPosts'), owners.findOwnerAndPosts);
 
 // Export router with all of our routes.
 module.exports = router;
