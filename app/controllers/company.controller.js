@@ -124,3 +124,31 @@ exports.findAll = async (req, res, next) => {
   }catch(err){ next(err); }
 
 };
+
+/**
+* @api {get} /api/companies/:pattern
+*
+* @apiParam {String} pattern included on the description of a company.
+*/
+exports.search = async (req, res, next) => {
+
+  try{
+
+    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
+    const validation_errors = validationResult(req);
+
+    if (!validation_errors.isEmpty()) {
+      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
+    }
+
+    // Searching on database for the company that contains our pattern inside its description.
+    let sql_query_pattern = '%' + req.params.pattern + '%';
+
+    let data = await Company.findAll({ where: { description: { [Op.like]: sql_query_pattern } }, 
+                                       attributes: [ 'id', 'name', 'shortdesc', 'description', 'email', 'date', 'status', 'logo'] });
+      
+    res.status(200).json(createResponse(200, 'Success retrieving companies by pattern', data));
+
+  }catch(err){ next(err); }
+
+};

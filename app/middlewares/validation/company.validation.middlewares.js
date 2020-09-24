@@ -45,5 +45,10 @@ exports.validate = (method) => {
         query('page', 'Page query param must be an integer').optional().not().isEmpty().isInt()
       ]
     }
+    case 'search': {
+      return [
+        param('pattern', 'Pattern param must be more than three characters length').exists().isLength({ min: 3 })
+      ]
+    }
   }
 }
