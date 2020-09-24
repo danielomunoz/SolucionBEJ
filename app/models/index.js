@@ -17,5 +17,6 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 db.company = require("./company.model.js")(sequelize, Sequelize);
+db.favorite = require("./favorite.model.js")(sequelize, Sequelize);
 
 module.exports = db;

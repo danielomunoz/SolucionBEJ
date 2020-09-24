@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 // Importing routes.
 const company_routes = require('./app/routes/company.routes');
 const owner_routes = require('./app/routes/owner.routes');
+const favorite_routes = require('./app/routes/favorite.routes');
 
 // Importing errors and security middlewares.
 const { errorHandler } = require('./app/middlewares/errors/server.errors.middlewares');
@@ -21,13 +22,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // developing the app.
 const db = require("./app/models");
 db.sequelize.sync().then(() => {
-  require("./app/config/sql_dump.js");
-  console.log("Sync to database.");
+  require('./app/config/sql_dump.js');
+  console.log('Sync to database.');
 });
 
 // Adding the routes previously imported.
 app.use('/api/companies', company_routes);
 app.use('/api/owners', owner_routes);
+app.use('/api/favorites', favorite_routes);
 
 // Managing application errors throwed in the course of server operations.
 app.use(errorHandler);
