@@ -9,6 +9,7 @@ const favorite_routes = require('./app/routes/favorite.routes');
 
 // Importing errors and security middlewares.
 const { errorHandler } = require('./app/middlewares/errors/server.errors.middlewares');
+const { serverProtect } = require('./app/middlewares/security/server.security.middlewares');
 
 const app = express();
 
@@ -17,6 +18,9 @@ app.use(bodyParser.json());
 
 // Parse requests of content-type - application/x-www-form-urlencoded.
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Filtering bad requests and checking blacklist to avoid hacker attacks.
+app.use(serverProtect);
 
 // Connecting to database between Sequelize and doing a database dump to operate with some info when 
 // developing the app.
