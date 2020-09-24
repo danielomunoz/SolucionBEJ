@@ -95,3 +95,32 @@ exports.update = async (req, res, next) => {
   }catch(err){ next(err); }
 
 };
+
+/**
+* @api {get} /api/companies
+*
+* @apiParam {Number} [page]
+*/
+exports.findAll = async (req, res, next) => {
+
+  try{
+
+    // Validate params and manage bad requests (creating a blacklist for the possible hackers).
+    const validation_errors = validationResult(req);
+
+    if (!validation_errors.isEmpty()) {
+      throw createError(400, 'Bad requests. Params are needed in their correct format', validation_errors.array());
+    }
+
+    // Listing companies.
+    let data = await Company.findAll({ attributes: [ 'id', 'name', 'shortdesc', 'description', 'email', 'date', 'status', 'logo'] });
+
+    if(isEmptyArray(data)){
+      throw createError(404, 'There are not results on our database for the page that you introduced');
+    }
+      
+    res.status(200).json(createResponse(200, 'Success retrieving companies list', data));
+
+  }catch(err){ next(err); }
+
+};

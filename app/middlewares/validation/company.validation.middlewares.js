@@ -40,5 +40,10 @@ exports.validate = (method) => {
         body('status', 'Status is not a boolean').optional().isBoolean()
        ]
     }
+    case 'findAll': {
+      return [
+        query('page', 'Page query param must be an integer').optional().not().isEmpty().isInt()
+      ]
+    }
   }
 }

@@ -10,6 +10,7 @@ let router = require("express").Router();
 	// Define Company routes.
 	router.post("/", validate('create'), companies.create);
 	router.put("/:id", validate('update'), companies.update);
+	router.get("/", validate('findAll'), companies.findAll);
 
 // Export router with all of our routes.
 module.exports = router;
