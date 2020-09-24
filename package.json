@@ -1,0 +1,19 @@
+{
+  "name": "btj-project-alub.io",
+  "version": "1.0.0",
+  "description": "Project for Alub.io to check my backend programming skills",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Munoz Amaya",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "mysql2": "^2.2.2",
+    "node-fetch": "^2.6.1",
+    "sequelize": "^6.3.5"
+  }
+}
